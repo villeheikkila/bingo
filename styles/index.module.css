@@ -1,0 +1,17 @@
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  max-width: 20rem;
+}
+
+.loginForm label {
+  display: flex;
+  flex-direction: column;
+}
+
+.loginForm input {
+  border-radius: 3px;
+  height: 2rem;
+  border: none;
+  margin: 4px 0;
+}

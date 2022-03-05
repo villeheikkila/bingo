@@ -1,0 +1,40 @@
+.bingoCard {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(5, 1fr);
+  gap: 8px;
+  width: 20rem;
+}
+
+.bingoCell {
+  padding: 8px;
+
+  border: 2px solid var(--border);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.isPicked {
+  background-color: var(--correct);
+  border: 2px solid var(--correct);
+}
+
+.isMissed {
+  background-color: var(--missed);
+  border: 2px solid var(--missed);
+}
+
+.bingoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.missedValuesContainer {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 2px;
+}
