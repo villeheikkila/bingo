@@ -48,8 +48,8 @@ const Index: NextPage = () => {
               id="username"
               name="username"
               required
-              min={3}
-              max={64}
+              minLength={3}
+              maxLength={64}
             />
           </label>
           <button type="submit">Start the bingo!</button>
