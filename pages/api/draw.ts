@@ -28,31 +28,31 @@ export default async function handler(
         );
       }
 
-      if (previousGameStatus.isWin) {
+      if (previousGameStatus.isWon) {
         res.status(200).json(previousGameStatus);
-        return; // The game ends in a bingo, ignore picks
+        return; // The game ends in a bingo, ignore draws
       }
 
-      const currentPick = bingo.availableNumbers.pop();
-      if (!currentPick) throw Error("no more available numbers left");
+      const currentDraw = bingo.availableNumbers.pop();
+      if (!currentDraw) throw Error("no more available numbers left");
 
       await StorageUtils.bingoCard().removeAvailableNumber(
         user.gameId,
-        currentPick
+        currentDraw
       );
 
       const gameStatus = BingoUtils.getGameStatus(
         bingo,
-        previousGameStatus.pickedNumbers,
-        currentPick
+        previousGameStatus.drawnNumbers,
+        currentDraw
       );
 
       await StorageUtils.gameStatus(username, user.gameId).set(gameStatus);
 
-      if (gameStatus.isWin) {
+      if (gameStatus.isWon) {
         // Stamp the number of tries it took to get the bingo
         const timestamp = new Date();
-        const score = gameStatus.pickedNumbers.length;
+        const score = gameStatus.drawnNumbers.length;
         await StorageUtils.scoreCard(username).add({ timestamp, score });
       }
 

@@ -3,13 +3,13 @@ import styles from "./bingo-card.module.css";
 
 interface BingoCardProps {
   values: number[][];
-  pickedNumbers: number[];
+  drawnNumbers: number[];
   missedNumbers: number[];
 }
 
 export const BingoCard = ({
   values,
-  pickedNumbers,
+  drawnNumbers,
   missedNumbers,
 }: BingoCardProps) => {
   return (
@@ -20,7 +20,7 @@ export const BingoCard = ({
             <BingoCell
               key={cell}
               value={cell}
-              isPicked={pickedNumbers.includes(cell)}
+              isPicked={drawnNumbers.includes(cell)}
             />
           ))
         )}

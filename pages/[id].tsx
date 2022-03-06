@@ -15,11 +15,14 @@ const Bingo: NextPage<ServerSideProps> = ({
 }) => {
   const router = useRouter();
   const [currentGameStatus, setCurrentGameStatus] = useState(gameStatus);
+  const [inProgress, setInProgress] = useState(false);
 
-  const pickNumber = async () => {
-    const response = await fetch("/api/pick");
+  const drawNumber = async () => {
+    setInProgress(true);
+    const response = await fetch("/api/draw");
     const updatedGameStatus = await response.json();
     setCurrentGameStatus(updatedGameStatus);
+    setInProgress(false);
   };
 
   const startNewGame = () => {
@@ -32,7 +35,7 @@ const Bingo: NextPage<ServerSideProps> = ({
 
   const missedNumbers = () => {
     const allValuesInCard = bingoCard.card.flat();
-    return currentGameStatus.pickedNumbers.filter(
+    return currentGameStatus.drawnNumbers.filter(
       (n) => !allValuesInCard.includes(n)
     );
   };
@@ -48,29 +51,33 @@ const Bingo: NextPage<ServerSideProps> = ({
       <Header username={username} />
 
       <main className={styles.main}>
-        <div className={styles.bingoContainer}>
-          <BingoCard
-            values={bingoCard.card}
-            pickedNumbers={currentGameStatus.pickedNumbers}
-            missedNumbers={missedNumbers()}
-          />
-        </div>
         <div className={styles.controls}>
-          {currentGameStatus.isWin ? (
+          {currentGameStatus.isWon ? (
             <>
               <b>BINGO!</b>
               <span>
-                You won after {currentGameStatus.pickedNumbers.length} draws
+                You won after {currentGameStatus.drawnNumbers.length} draws
               </span>
               <button className={styles.button} onClick={startNewGame}>
                 Start new game!
               </button>
             </>
           ) : (
-            <button onClick={pickNumber} className={styles.button}>
-              Pick!
+            <button
+              onClick={drawNumber}
+              className={styles.button}
+              disabled={inProgress}
+            >
+              Draw!
             </button>
           )}
+        </div>
+        <div className={styles.bingoContainer}>
+          <BingoCard
+            values={bingoCard.card}
+            drawnNumbers={currentGameStatus.drawnNumbers}
+            missedNumbers={missedNumbers()}
+          />
         </div>
 
         {scoreCard.scores.length > 0 ? (
@@ -127,7 +134,6 @@ export const getServerSideProps: GetServerSideProps = async ({
     This is obviously not ideal but should be ok for now.
     */
 
-    SessionUtils(req, res).user.logout();
     return {
       redirect: {
         permanent: false,

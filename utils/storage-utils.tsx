@@ -26,8 +26,8 @@ export const user = (username: string) => {
 };
 
 export interface GameStatus {
-  pickedNumbers: number[];
-  isWin: boolean;
+  drawnNumbers: number[];
+  isWon: boolean;
 }
 
 const userGameKey = (username: string, gameId: string) =>
@@ -44,8 +44,8 @@ export const gameStatus = (username: string, gameId: string) => {
     get: () => userGameStorage.get(userGameKey(username, gameId)),
     new: () =>
       userGameStorage.set(userGameKey(username, gameId), {
-        pickedNumbers: [],
-        isWin: false,
+        drawnNumbers: [],
+        isWon: false,
       }),
   };
 };
@@ -61,14 +61,15 @@ const bingoCardStorage = new JSONCache<Bingo>(redis, {
 
 export const bingoCard = () => {
   return {
-    removeAvailableNumber: async (gameId: string, pickedNumber: number) => {
+    removeAvailableNumber: async (gameId: string, drawnNumber: number) => {
       const oldValue = await bingoCardStorage.get(gameId);
       if (!oldValue) throw Error(`game with id ${gameId} doesn't exist`);
 
       const availableNumbers = oldValue?.availableNumbers.filter(
-        (n) => n !== pickedNumber
+        (n) => n !== drawnNumber
       );
-      bingoCardStorage.set(gameId, { ...oldValue, availableNumbers });
+
+      await bingoCardStorage.set(gameId, { ...oldValue, availableNumbers });
     },
     get: (gameId: string) => bingoCardStorage.get(gameId),
     new: () => {

@@ -16,49 +16,46 @@ const pickFiveRandomInRange = ([min, max]: [number, number]) =>
     }
   ).valuesToReturn;
 
-const pickAvailableNumber = (
-  bingoCard: number[][],
-  pickedNumbers: number[]
-) => {
+const pickAvailableNumber = (bingoCard: number[][], drawnNumbers: number[]) => {
   const numbersInBingoCard = bingoCard.flat();
   const availableNumbers = numbersInBingoCard.filter(
-    (n) => !pickedNumbers.includes(n)
+    (n) => !drawnNumbers.includes(n)
   );
   return pickRandomInArray(availableNumbers);
 };
 
-const isWin = (bingoCard: number[][], pickedNumbers: number[]) => {
+const isWon = (bingoCard: number[][], drawnNumbers: number[]) => {
   const verticalBingo = bingoCard.some((row) =>
-    row.every((number) => pickedNumbers.includes(number))
+    row.every((number) => drawnNumbers.includes(number))
   );
 
   const length = bingoCard[0].length;
 
   const horizontalBingo = Array.from({ length })
     .map((_, i) => bingoCard.map((col) => col[i]))
-    .some((row) => row.every((number) => pickedNumbers.includes(number)));
+    .some((row) => row.every((number) => drawnNumbers.includes(number)));
 
   const diagonalBingoR = Array.from({ length })
     .map((_, i) => bingoCard[i][i])
-    .every((number) => pickedNumbers.includes(number));
+    .every((number) => drawnNumbers.includes(number));
 
   const diagonalBingoL = Array.from({ length })
     .map((_, i) => bingoCard[i][length - 1 - i])
-    .every((number) => pickedNumbers.includes(number));
+    .every((number) => drawnNumbers.includes(number));
 
   return horizontalBingo || verticalBingo || diagonalBingoR || diagonalBingoL;
 };
 
 export const getGameStatus = (
   { card }: StorageUtils.Bingo,
-  previouslyPickedNumbers: number[],
+  previouslydrawnNumbers: number[],
   currentPick: number
 ) => {
-  const pickedNumbers = [...previouslyPickedNumbers, currentPick];
+  const drawnNumbers = [...previouslydrawnNumbers, currentPick];
 
   return {
-    isWin: isWin(card, pickedNumbers),
-    pickedNumbers,
+    isWon: isWon(card, drawnNumbers),
+    drawnNumbers,
   };
 };
 
