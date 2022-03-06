@@ -4,11 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import { generateBingo } from "./bingo-utils";
 import "dotenv/config";
 
-export const redis = new Redis({
-  host: process.env.REDIS_HOST as string,
-  password: process.env.REDIS_PASSWORD as string,
-  port: parseInt(process.env.REDIS_PORT as string, 10),
-});
+const redisConfig = process.env.REDIS_URL;
+
+export const redis = new Redis(redisConfig);
 
 export const jsonStorage = new JSONCache(redis);
 
