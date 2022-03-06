@@ -130,10 +130,10 @@ export const getServerSideProps: GetServerSideProps = async ({
     };
   } catch (e) {
     console.error(e);
-    /* If any of the data is missing, we logout and redirect the user to the new account creation page
-    This is obviously not ideal but should be ok for now.
+    /* 
+      If any of the data is missing, redirect the user to the new account creation page
+      This is obviously not ideal but should be ok for now.
     */
-
     return {
       redirect: {
         permanent: false,

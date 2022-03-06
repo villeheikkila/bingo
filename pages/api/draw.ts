@@ -29,6 +29,7 @@ export default async function handler(
       }
 
       if (previousGameStatus.isWon) {
+        /* This might be against the spirit of the game as the bingo is shouted automatically.*/
         res.status(200).json(previousGameStatus);
         return; // The game ends in a bingo, ignore draws
       }

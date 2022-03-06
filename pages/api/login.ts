@@ -19,8 +19,11 @@ export default async function handler(
     res.status(400).json({ error: "username is required" });
   }
 
+  /* 
+    This is obviously ridiculous, anyone can login as another user by just knowing the username.
+    Fixing this would be trivial by adding a password and by forbidding duplicate users.
+   */
   const existingUser = await StorageUtils.user(username).get();
-
   SessionUtils(req, res).user.set(username);
 
   if (existingUser) {
