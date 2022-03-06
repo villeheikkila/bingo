@@ -11,7 +11,7 @@ const Timestamp = ({ timestamp }: { timestamp: Date }) => {
   const day = d.getDate();
   const month = d.getMonth() + 1;
   const year = d.getFullYear();
-  const min = d.getMinutes();
+  const min = d.getMinutes().toString().padStart(2, "0");
   const hours = d.getHours();
 
   return (
@@ -26,8 +26,10 @@ export const ScoreBoard = ({ data }: ScoreBoardProps) => {
       <h1>Scoreboard</h1>
       <table>
         <thead>
-          <th>Time</th>
-          <th>Score</th>
+          <tr>
+            <th>Time</th>
+            <th>Score</th>
+          </tr>
         </thead>
         <tbody className={styles.scoreBoardTable}>
           {data.map(({ timestamp, score }) => (

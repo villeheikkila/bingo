@@ -2,20 +2,20 @@
   display: grid;
   grid-auto-flow: column;
   grid-template-rows: repeat(5, 1fr);
-  gap: 8px;
-  width: 20rem;
+  gap: 4px;
 }
 
 .bingoCell {
   padding: 8px;
-
+  width: 4rem;
+  height: 4rem;
   border: 2px solid var(--border);
   display: inline-flex;
   justify-content: center;
   align-items: center;
 }
 
-.isPicked {
+.isPositive {
   background-color: var(--correct);
   border: 2px solid var(--correct);
 }

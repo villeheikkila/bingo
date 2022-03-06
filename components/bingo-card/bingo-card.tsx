@@ -20,7 +20,7 @@ export const BingoCard = ({
             <BingoCell
               key={cell}
               value={cell}
-              isPicked={drawnNumbers.includes(cell)}
+              isPositive={drawnNumbers.includes(cell) || cell === 0}
             />
           ))
         )}
@@ -41,15 +41,17 @@ export const BingoCard = ({
 
 interface BingoCellProps {
   value: number;
-  isPicked: boolean;
+  isPositive: boolean;
 }
 
-const BingoCell = ({ value, isPicked }: BingoCellProps) => {
+const BingoCell = ({ value, isPositive }: BingoCellProps) => {
   return (
     <div
-      className={classnames(styles.bingoCell, { [styles.isPicked]: isPicked })}
+      className={classnames(styles.bingoCell, {
+        [styles.isPositive]: isPositive,
+      })}
     >
-      <span>{value}</span>
+      <span>{value === 0 ? "Free" : value}</span>
     </div>
   );
 };

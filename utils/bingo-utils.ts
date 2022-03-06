@@ -16,32 +16,28 @@ const pickFiveRandomInRange = ([min, max]: [number, number]) =>
     }
   ).valuesToReturn;
 
-const pickAvailableNumber = (bingoCard: number[][], drawnNumbers: number[]) => {
-  const numbersInBingoCard = bingoCard.flat();
-  const availableNumbers = numbersInBingoCard.filter(
-    (n) => !drawnNumbers.includes(n)
-  );
-  return pickRandomInArray(availableNumbers);
-};
+const includesOrFree = (arr: number[], n: number) =>
+  arr.includes(n) || n === FREE_NUMBER;
 
 const isWon = (bingoCard: number[][], drawnNumbers: number[]) => {
+  const length = bingoCard[0].length;
+  const arr = Array.from({ length });
+
   const verticalBingo = bingoCard.some((row) =>
-    row.every((number) => drawnNumbers.includes(number))
+    row.every((number) => includesOrFree(drawnNumbers, number))
   );
 
-  const length = bingoCard[0].length;
-
-  const horizontalBingo = Array.from({ length })
+  const horizontalBingo = arr
     .map((_, i) => bingoCard.map((col) => col[i]))
-    .some((row) => row.every((number) => drawnNumbers.includes(number)));
+    .some((row) => row.every((number) => includesOrFree(drawnNumbers, number)));
 
-  const diagonalBingoR = Array.from({ length })
+  const diagonalBingoR = arr
     .map((_, i) => bingoCard[i][i])
     .every((number) => drawnNumbers.includes(number));
 
-  const diagonalBingoL = Array.from({ length })
+  const diagonalBingoL = arr
     .map((_, i) => bingoCard[i][length - 1 - i])
-    .every((number) => drawnNumbers.includes(number));
+    .every((number) => includesOrFree(drawnNumbers, number));
 
   return horizontalBingo || verticalBingo || diagonalBingoR || diagonalBingoL;
 };
@@ -69,11 +65,14 @@ const ranges: [number, number][] = [
 
 const numbersInGame = Array.from({ length: 75 }, (_, i) => i + 1);
 
+export const FREE_NUMBER = 0;
+
 export const generateBingo = () => {
   const card = ranges.map(pickFiveRandomInRange);
   const availableNumbers = shuffle(numbersInGame);
-  //   const randomIndex = Math.floor(Math.random() * bingoRows.length);
-  //   bingoRows[randomIndex][randomIndex] = 0;
+  // Add a free bingo cell
+  const randomIndex = Math.floor(Math.random() * card.length);
+  card[randomIndex][randomIndex] = FREE_NUMBER;
   return {
     card,
     availableNumbers,
