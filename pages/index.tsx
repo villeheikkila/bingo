@@ -22,9 +22,6 @@ const Index: NextPage = () => {
         if (res.redirected) {
           router.push(res.url);
         }
-        if (res.status === 200) {
-          router.reload();
-        }
       })
       .catch((e) => console.error(e));
   };

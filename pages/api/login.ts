@@ -25,7 +25,7 @@ export default async function handler(
 
   if (existingUser) {
     // Redirect the existing user to a currently active game
-    res.status(200).json({ success: "log in as already existing user" });
+    res.redirect(302, `/${existingUser.gameId}`).end();
     return;
   }
 
