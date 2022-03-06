@@ -60,7 +60,7 @@ const Bingo: NextPage<ServerSideProps> = ({
             <>
               <b>BINGO!</b>
               <span>
-                It took you {currentGameStatus.pickedNumbers.length} tries
+                You won after {currentGameStatus.pickedNumbers.length} draws
               </span>
               <button className={styles.button} onClick={startNewGame}>
                 Start new game!
@@ -73,7 +73,9 @@ const Bingo: NextPage<ServerSideProps> = ({
           )}
         </div>
 
-        <ScoreBoard data={scoreCard.scores} />
+        {scoreCard.scores.length > 0 ? (
+          <ScoreBoard data={scoreCard.scores} />
+        ) : null}
       </main>
     </div>
   );

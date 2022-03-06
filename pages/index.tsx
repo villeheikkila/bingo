@@ -45,7 +45,7 @@ const Index: NextPage = () => {
           className={styles.loginForm}
         >
           <label>
-            Pick an username
+            Choose an username
             <input
               type="text"
               id="username"
@@ -55,7 +55,7 @@ const Index: NextPage = () => {
               max={64}
             />
           </label>
-          <button type="submit">Start the game!</button>
+          <button type="submit">Start the bingo!</button>
         </form>
       </main>
     </div>
