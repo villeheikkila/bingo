@@ -33,7 +33,7 @@ const isWon = (bingoCard: number[][], drawnNumbers: number[]) => {
 
   const diagonalBingoR = arr
     .map((_, i) => bingoCard[i][i])
-    .every((number) => drawnNumbers.includes(number));
+    .every((number) => includesOrFree(drawnNumbers, number));
 
   const diagonalBingoL = arr
     .map((_, i) => bingoCard[i][length - 1 - i])

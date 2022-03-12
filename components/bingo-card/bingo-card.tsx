@@ -1,4 +1,5 @@
 import classnames from "classnames";
+import { BingoUtils } from "../../utils";
 import styles from "./bingo-card.module.css";
 
 interface BingoCardProps {
@@ -51,7 +52,7 @@ const BingoCell = ({ value, isPositive }: BingoCellProps) => {
         [styles.isPositive]: isPositive,
       })}
     >
-      <span>{value === 0 ? "Free" : value}</span>
+      <span>{value === BingoUtils.FREE_NUMBER ? "Free" : value}</span>
     </div>
   );
 };
